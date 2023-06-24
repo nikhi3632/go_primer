@@ -1,1 +1,1 @@
-# Dist_Sys_Go
+# Distributed Systems in Go
