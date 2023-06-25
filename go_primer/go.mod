@@ -1,3 +1,3 @@
-module primer
+module main
 
 go 1.17

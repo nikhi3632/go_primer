@@ -1,4 +1,4 @@
-package primer
+package main
 
 import (
 	"fmt"
@@ -6,10 +6,12 @@ import (
 )
 
 // Find the top K most common words in a text document.
-// 	path: location of the document
+//
+//	path: location of the document
 //	numWords: number of words to return (i.e. k)
 //	charThreshold: character threshold for whether a token qualifies as a word,
 //		e.g. charThreshold = 5 means "apple" is a word but "pear" is not.
+//
 // Matching is case insensitive, e.g. "Orange" and "orange" is considered the same word.
 // A word comprises alphanumeric characters only. All punctuation and other characters
 // are removed, e.g. "don't" becomes "dont".

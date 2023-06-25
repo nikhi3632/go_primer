@@ -1,4 +1,4 @@
-package primer
+package main
 
 import "log"
 
