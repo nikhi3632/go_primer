@@ -108,7 +108,7 @@ func run3() {
 	} // one of it gets printed randomly whichever is ready first
 }
 
-func doWork(done <-chan bool) { // done channel passed a read only
+func doWork(done <-chan bool) { // done channel passed as read only
 	for {
 		select {
 		case <-done:
@@ -171,13 +171,13 @@ func run5() {
 */
 
 func main() {
-	run1()
-	fmt.Println("--------------------------------------")
-	run2()
-	fmt.Println("--------------------------------------")
-	run3()
-	fmt.Println("--------------------------------------")
-	run4()
-	fmt.Println("--------------------------------------")
+	// run1()
+	// fmt.Println("--------------------------------------")
+	// run2()
+	// fmt.Println("--------------------------------------")
+	// run3()
+	// fmt.Println("--------------------------------------")
+	// run4()
+	// fmt.Println("--------------------------------------")
 	run5()
 }
