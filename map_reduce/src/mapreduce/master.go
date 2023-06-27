@@ -1,14 +1,14 @@
 package mapreduce
 
-import "container/list"
-import "fmt"
-
+import (
+	"container/list"
+	"fmt"
+)
 
 type WorkerInfo struct {
 	address string
 	// You can add definitions here.
 }
-
 
 // Clean up all workers by sending a Shutdown RPC to each one of them Collect
 // the number of jobs each work has performed.

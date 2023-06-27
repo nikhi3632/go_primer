@@ -1,7 +1,9 @@
 package mapreduce
 
-import "fmt"
-import "net/rpc"
+import (
+	"fmt"
+	"net/rpc"
+)
 
 const (
 	Map    = "Map"
@@ -40,7 +42,6 @@ type RegisterReply struct {
 	OK bool
 }
 
-//
 // call() sends an RPC to the rpcname handler on server srv
 // with arguments args, waits for the reply, and leaves the
 // reply in reply. the reply argument should be the address
@@ -55,7 +56,6 @@ type RegisterReply struct {
 //
 // please use call() to send all RPCs, in master.go, mapreduce.go,
 // and worker.go.  please don't change this function.
-//
 func call(srv string, rpcname string,
 	args interface{}, reply interface{}) bool {
 	c, errx := rpc.Dial("unix", srv)

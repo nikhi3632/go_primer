@@ -2,16 +2,15 @@
 
 ### Introduction
 
-Build a MapReduce library as a way to learn the Go
-programming language and as a way to learn about fault tolerance in distributed systems. 
+Build a MapReduce library as a way to learn the Go programming language and as a way to learn about fault tolerance in distributed systems.
+
 The first part is to write a simple MapReduce program and the second part is to write a Master that hands out jobs to workers, and handles failures of workers. The interface to the library and the approach to fault tolerance is similar to the one described in the original [MapReduce paper](http://research.google.com/archive/mapreduce-osdi04.pdf).
 
 ### Software
 
 Implement this in [Go 1.2 or later](http://www.golang.org/). The Go web site contains lots of tutorial information which you may want to look at. A non-distributed MapReduce implementation is supplied, and a partial implementation of a distributed implementation (just the boring bits).
 
-It's your responsibility to install Go in your development
-environment. We recommend using your distribution's package manager. 
+It's your responsibility to install Go in your development environment. We recommend using your distribution's package manager. 
 
 On OS X with [homebrew](http://brew.sh/):
 ```bash
@@ -31,10 +30,8 @@ $ sudo pacman -S go
 
 ### Getting started
 
- There is an input file <tt>kjv12.txt</tt> in src/main, which was
-downloaded from [here](https://web.archive.org/web/20130530223318/http://patriot.net/~bmcgin/kjv12.txt).
-Compile the initial software we provide you with and run it with the downloaded input
-file:
+There is an input file <tt>kjv12.txt</tt> in src/main, which was downloaded from [here](https://web.archive.org/web/20130530223318/http://patriot.net/~bmcgin/kjv12.txt).
+Compile the initial software we provide you with and run it with the downloaded input file:
 
 ```bash
 $ export GOPATH=/path/to/map_reduce
@@ -52,8 +49,7 @@ The compiler produces two errors, because the implementation of the <tt>Map</tt>
 
 ### Part I: Word count
 
-Modify <tt>Map</tt> and <tt>Reduce</tt> so that <tt>wc.go</tt> reports the
-number of occurrences of each word in alphabetical order.
+Modify <tt>Map</tt> and <tt>Reduce</tt> so that <tt>wc.go</tt> reports the number of occurrences of each word in alphabetical order.
 ```bash
 $ go run wc.go master kjv12.txt sequential
 Split kjv12.txt
