@@ -53,12 +53,11 @@ Modify <tt>Map</tt> and <tt>Reduce</tt> so that <tt>wc.go</tt> reports the numbe
 ```bash
 $ go run wc.go master kjv12.txt sequential
 Split kjv12.txt
-Split read 4834757
-DoMap: read split mrtmp.kjv12.txt-0 966954
-DoMap: read split mrtmp.kjv12.txt-1 966953
-DoMap: read split mrtmp.kjv12.txt-2 966951
-DoMap: read split mrtmp.kjv12.txt-3 966955
-DoMap: read split mrtmp.kjv12.txt-4 966944
+DoMap: read split mrtmp.kjv12.txt-0 966967
+DoMap: read split mrtmp.kjv12.txt-1 966941
+DoMap: read split mrtmp.kjv12.txt-2 966974
+DoMap: read split mrtmp.kjv12.txt-3 966970
+DoMap: read split mrtmp.kjv12.txt-4 966905
 DoReduce: read mrtmp.kjv12.txt-0-0
 DoReduce: read mrtmp.kjv12.txt-1-0
 DoReduce: read mrtmp.kjv12.txt-2-0
@@ -74,7 +73,7 @@ DoReduce: read mrtmp.kjv12.txt-1-2
 DoReduce: read mrtmp.kjv12.txt-2-2
 DoReduce: read mrtmp.kjv12.txt-3-2
 DoReduce: read mrtmp.kjv12.txt-4-2
-Merge phaseMerge: read mrtmp.kjv12.txt-res-0
+Merge: read mrtmp.kjv12.txt-res-0
 Merge: read mrtmp.kjv12.txt-res-1
 Merge: read mrtmp.kjv12.txt-res-2
 ```
@@ -111,9 +110,9 @@ Hint: for the purposes of this exercise, you can consider a word to be any conti
 
 Hint: the strconv package (http://golang.org/pkg/strconv/) is handy to convert strings to integers, etc.
 
-You can remove the output file and all intermediate files with:
+You can comment the following in src/main/test-wc.sh for debugging:
 ```bash
-$ rm mrtmp.*
+rm -rf diff.out mrtmp.kjv12.txt*
 ```
 
 ### Part II: Distributing MapReduce jobs

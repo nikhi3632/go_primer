@@ -268,6 +268,7 @@ func DoReduce(job int, fileName string, nmap int,
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
+	/* fmt.Println(keys) // prints the list of keys for each reduce */
 	p := MergeName(fileName, job)
 	file, err := os.Create(p)
 	if err != nil {
@@ -275,7 +276,7 @@ func DoReduce(job int, fileName string, nmap int,
 	}
 	enc := json.NewEncoder(file)
 	for _, k := range keys {
-		res := Reduce(k, kvs[k])
+		res := Reduce(k, kvs[k]) // reduce is being called for each key generated
 		enc.Encode(KeyValue{k, res})
 	}
 	file.Close()

@@ -35,7 +35,8 @@ func Map(value string) *list.List {
 // output value for that key.
 func Reduce(key string, values *list.List) string {
 	sum := 0
-	for element := values.Front(); element != nil; element = element.Next() {
+	// fmt.Printf("Key: %v\n", key)
+	for element := values.Front(); element != nil; element = element.Next() { // looping over values *list.List
 		value := element.Value.(string)
 		num, err := strconv.Atoi(value)
 		if err != nil {
