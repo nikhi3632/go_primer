@@ -114,7 +114,11 @@ func makeInput() string {
 // in /var/tmp. can't use current directory since
 // AFS doesn't support UNIX-domain sockets.
 func port(suffix string) string {
-	s := "/var/tmp/824-"
+	currDir, err := os.Getwd()
+	if err != nil {
+		log.Panic("Failed to get current directory:", err)
+	}
+	s := currDir + "/../824-"
 	s += strconv.Itoa(os.Getuid()) + "/"
 	os.Mkdir(s, 0777)
 	s += "mr"
