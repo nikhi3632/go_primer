@@ -76,7 +76,7 @@ func RunWorker(MasterAddress string, me string,
 		log.Fatal("RunWorker: worker ", me, " error: ", e)
 	}
 	wk.l = l
-	Register(MasterAddress, me)
+	Register(MasterAddress, me) // register worker to master
 
 	// DON'T MODIFY CODE BELOW
 	for wk.nRPC != 0 {

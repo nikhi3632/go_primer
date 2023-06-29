@@ -19,7 +19,7 @@ func (mr *MapReduce) KillWorkers() *list.List {
 		DPrintf("DoWork: shutdown %s\n", w.address)
 		args := &ShutdownArgs{}
 		var reply ShutdownReply
-		ok := call(w.address, "Worker.Shutdown", args, &reply)
+		ok := call(w.address, "Worker.Shutdown", args, &reply) // shutdown each worker
 		if ok == false {
 			fmt.Printf("DoWork: RPC %s shutdown error\n", w.address)
 		} else {
@@ -44,14 +44,13 @@ func (mr *MapReduce) RunMaster() *list.List {
 			}
 			jobReply := DoJobReply{}
 			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
-			// fmt.Println("Mr-Rpc:", mapreduceRpc, "Worker:", worker, "JobArgs:", jobArgs, "JobReply:", jobReply)
+			fmt.Println("Mr-Rpc:", mapreduceRpc, ", Worker:", worker, ", JobArgs:", jobArgs, ", JobReply:", jobReply)
 			if mapreduceRpc {
 				if operation == Map {
 					mapper <- jobArgs
 					mr.registerChannel <- worker
 					break
 				} else if operation == Reduce {
-
 					reducer <- jobArgs
 					mr.registerChannel <- worker
 					break
@@ -64,15 +63,15 @@ func (mr *MapReduce) RunMaster() *list.List {
 
 	for i := 0; i < mr.nMap; i++ {
 		go jobAllotment(i, Map, mr.nReduce)
-		<-mapper
+		<-mapper // if mapreduceRpc is true finish the map job assigned
 	}
 	close(mapper)
 
 	for i := 0; i < mr.nReduce; i++ {
 		go jobAllotment(i, Reduce, mr.nMap)
-		<-reducer
+		<-reducer // if mapreduceRpc is true finish the reduce job assigned
 	}
 	close(reducer)
 
-	return mr.KillWorkers()
+	return mr.KillWorkers() // killing the workers sets mapreduceRpc to false
 }

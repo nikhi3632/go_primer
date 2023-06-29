@@ -156,14 +156,14 @@ func TestBasic(t *testing.T) {
 
 func TestOneFailure(t *testing.T) {
 	fmt.Printf("Test: One Failure mapreduce ...\n")
-	mr := setup()
+	mr := setup() // calls MakeMapReduce
 	// Start 2 workers and fail worker-0 after 10 jobs
-	go RunWorker(mr.MasterAddress, port("worker"+strconv.Itoa(0)),
+	go RunWorker(mr.MasterAddress, port("worker"+strconv.Itoa(0)), //calling RunWorker till it's failed
 		MapFunc, ReduceFunc, 10)
 	go RunWorker(mr.MasterAddress, port("worker"+strconv.Itoa(1)),
 		MapFunc, ReduceFunc, -1)
 	// Wait until MR is done
-	<-mr.DoneChannel
+	<-mr.DoneChannel // DoneChannel recieved a value and we take out that value(true in this case) to unblock
 	check(t, mr.file)
 	checkWorker(t, mr.stats)
 	cleanup(mr)

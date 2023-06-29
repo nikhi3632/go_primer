@@ -100,8 +100,8 @@ func (mr *MapReduce) Register(args *RegisterArgs, res *RegisterReply) error {
 
 func (mr *MapReduce) Shutdown(args *ShutdownArgs, res *ShutdownReply) error {
 	DPrintf("Shutdown: registration server\n")
-	mr.alive = false
-	mr.l.Close() // causes the Accept to fail
+	mr.alive = false // shutting the master down
+	mr.l.Close()     // causes the Accept to fail
 	return nil
 }
 
@@ -373,11 +373,11 @@ func (mr *MapReduce) Run() {
 	fmt.Printf("Run mapreduce job %s %s\n", mr.MasterAddress, mr.file)
 
 	mr.Split(mr.file)
-	mr.stats = mr.RunMaster()
+	mr.stats = mr.RunMaster() // implement RunMaster() in master.go
 	mr.Merge()
-	mr.CleanupRegistration()
+	mr.CleanupRegistration() // calls MapReduce.Shutdown internally
 
 	fmt.Printf("%s: MapReduce done\n", mr.MasterAddress)
 
-	mr.DoneChannel <- true
+	mr.DoneChannel <- true // setting DoneChannel to true upon completion of mapreduce
 }
