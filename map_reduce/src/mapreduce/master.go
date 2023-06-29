@@ -30,5 +30,46 @@ func (mr *MapReduce) KillWorkers() *list.List {
 
 func (mr *MapReduce) RunMaster() *list.List {
 	// Your code here
+	mapper := make(chan interface{})
+	reducer := make(chan interface{})
+	jobAllotment := func(jobNumber int, operation string, num int) {
+		for {
+			worker := <-mr.registerChannel
+			jobArgs := DoJobArgs{
+				File:          mr.file,
+				Operation:     JobType(operation),
+				JobNumber:     jobNumber,
+				NumOtherPhase: num,
+			}
+			jobReply := DoJobReply{}
+			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
+			if operation == Map {
+				if mapreduceRpc {
+					mapper <- jobArgs
+					mr.registerChannel <- worker
+					break
+				}
+			} else {
+				if mapreduceRpc {
+					reducer <- jobArgs
+					mr.registerChannel <- worker
+					break
+				}
+			}
+		}
+	}
+
+	for i := 0; i < mr.nMap; i++ {
+		go jobAllotment(i, Map, mr.nReduce)
+		<-mapper
+	}
+	close(mapper)
+
+	for i := 0; i < mr.nReduce; i++ {
+		go jobAllotment(i, Reduce, mr.nMap)
+		<-reducer
+	}
+	close(reducer)
+
 	return mr.KillWorkers()
 }

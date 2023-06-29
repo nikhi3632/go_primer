@@ -110,11 +110,6 @@ Hint: for the purposes of this exercise, you can consider a word to be any conti
 
 Hint: the strconv package (http://golang.org/pkg/strconv/) is handy to convert strings to integers, etc.
 
-You can comment the following in src/main/test-wc.sh for debugging:
-```bash
-rm -rf diff.out mrtmp.kjv12.txt*
-```
-
 ### Part II: Distributing MapReduce jobs
 
 In this part design and implement a master who distributes jobs to a set of workers. We give you the code for the RPC messages (see <tt>common.go</tt> in the <tt>mapreduce</tt> package) and the code for a worker (see <tt>worker.go</tt> in the <tt>mapreduce</tt> package).
