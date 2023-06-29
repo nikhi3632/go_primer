@@ -78,6 +78,7 @@ func InitMapReduce(nmap int, nreduce int,
 	mr.alive = true
 	mr.registerChannel = make(chan string)
 	mr.DoneChannel = make(chan bool)
+	// traking the above two channels is very essential to unblock the co-routines
 
 	// initialize any additional state here
 	return mr
