@@ -35,7 +35,7 @@ func (mr *MapReduce) RunMaster() *list.List {
 	reducer := make(chan interface{})
 	jobAllotment := func(jobNumber int, operation string, num int) {
 		for {
-			worker := <-mr.registerChannel
+			worker := <-mr.registerChannel // take out the worker from registerChannel
 			jobArgs := DoJobArgs{
 				File:          mr.file,
 				Operation:     JobType(operation),
@@ -43,21 +43,21 @@ func (mr *MapReduce) RunMaster() *list.List {
 				NumOtherPhase: num,
 			}
 			jobReply := DoJobReply{}
-			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
-			fmt.Println("Mr-Rpc:", mapreduceRpc, ", Worker:", worker, ", JobArgs:", jobArgs, ", JobReply:", jobReply)
-			if mapreduceRpc {
-				if operation == Map {
-					mapper <- jobArgs
-					mr.registerChannel <- worker
-					break
-				} else if operation == Reduce {
-					reducer <- jobArgs
-					mr.registerChannel <- worker
-					break
-				} else {
-					log.Panic("unknown operation for map reduce\n")
-				}
+			call(worker, "Worker.DoJob", jobArgs, &jobReply)
+			// fmt.Println("Mr-Rpc:", mapreduceRpc, ", Worker:", worker, ", JobArgs:", jobArgs, ", JobReply:", jobReply)
+			// if mapreduceRpc {
+			if operation == Map {
+				mapper <- jobArgs
+				mr.registerChannel <- worker
+				break
+			} else if operation == Reduce {
+				reducer <- jobArgs
+				mr.registerChannel <- worker
+				break
+			} else {
+				log.Panic("unknown operation for map reduce\n")
 			}
+			// }
 		}
 	}
 

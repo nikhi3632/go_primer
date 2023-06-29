@@ -93,7 +93,7 @@ func MakeMapReduce(nmap int, nreduce int,
 
 func (mr *MapReduce) Register(args *RegisterArgs, res *RegisterReply) error {
 	DPrintf("Register: worker %s\n", args.Worker)
-	mr.registerChannel <- args.Worker
+	mr.registerChannel <- args.Worker // called upon RunWorker()
 	res.OK = true
 	return nil
 }
