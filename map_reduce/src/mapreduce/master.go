@@ -3,6 +3,7 @@ package mapreduce
 import (
 	"container/list"
 	"fmt"
+	"log"
 )
 
 type WorkerInfo struct {
@@ -43,17 +44,19 @@ func (mr *MapReduce) RunMaster() *list.List {
 			}
 			jobReply := DoJobReply{}
 			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
-			if operation == Map {
-				if mapreduceRpc {
+			// fmt.Println("Mr-Rpc:", mapreduceRpc, "Worker:", worker, "JobArgs:", jobArgs, "JobReply:", jobReply)
+			if mapreduceRpc {
+				if operation == Map {
 					mapper <- jobArgs
 					mr.registerChannel <- worker
 					break
-				}
-			} else {
-				if mapreduceRpc {
+				} else if operation == Reduce {
+
 					reducer <- jobArgs
 					mr.registerChannel <- worker
 					break
+				} else {
+					log.Panic("unknown operation for map reduce\n")
 				}
 			}
 		}

@@ -157,7 +157,7 @@ func TestBasic(t *testing.T) {
 func TestOneFailure(t *testing.T) {
 	fmt.Printf("Test: One Failure mapreduce ...\n")
 	mr := setup()
-	// Start 2 workers that fail after 10 jobs
+	// Start 2 workers and fail worker-0 after 10 jobs
 	go RunWorker(mr.MasterAddress, port("worker"+strconv.Itoa(0)),
 		MapFunc, ReduceFunc, 10)
 	go RunWorker(mr.MasterAddress, port("worker"+strconv.Itoa(1)),
