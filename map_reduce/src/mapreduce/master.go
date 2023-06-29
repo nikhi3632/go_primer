@@ -45,7 +45,7 @@ func (mr *MapReduce) RunMaster() *list.List {
 			jobReply := DoJobReply{}
 			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
 			// fmt.Println("Mr-Rpc:", mapreduceRpc, ", Worker:", worker, ", JobArgs:", jobArgs, ", JobReply:", jobReply)
-			if mapreduceRpc {
+			if mapreduceRpc { // assign jobs only if the worker if not failed
 				if operation == Map {
 					mapper <- jobArgs
 					mr.registerChannel <- worker
