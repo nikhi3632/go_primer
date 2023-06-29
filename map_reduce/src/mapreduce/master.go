@@ -43,21 +43,21 @@ func (mr *MapReduce) RunMaster() *list.List {
 				NumOtherPhase: num,
 			}
 			jobReply := DoJobReply{}
-			call(worker, "Worker.DoJob", jobArgs, &jobReply)
+			mapreduceRpc := call(worker, "Worker.DoJob", jobArgs, &jobReply)
 			// fmt.Println("Mr-Rpc:", mapreduceRpc, ", Worker:", worker, ", JobArgs:", jobArgs, ", JobReply:", jobReply)
-			// if mapreduceRpc {
-			if operation == Map {
-				mapper <- jobArgs
-				mr.registerChannel <- worker
-				break
-			} else if operation == Reduce {
-				reducer <- jobArgs
-				mr.registerChannel <- worker
-				break
-			} else {
-				log.Panic("unknown operation for map reduce\n")
+			if mapreduceRpc {
+				if operation == Map {
+					mapper <- jobArgs
+					mr.registerChannel <- worker
+					break
+				} else if operation == Reduce {
+					reducer <- jobArgs
+					mr.registerChannel <- worker
+					break
+				} else {
+					log.Panic("unknown operation for map reduce\n")
+				}
 			}
-			// }
 		}
 	}
 
