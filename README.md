@@ -1,1 +1,1 @@
-# Distributed Systems in Go
+### Learning Go by implementing a simple map reduce framework
